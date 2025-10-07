@@ -1,0 +1,24 @@
+# Hailo AI Add-on Python Dependencies
+
+# Core dependencies
+flask>=2.3.0
+requests>=2.31.0
+pyyaml>=6.0
+
+# Image processing
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.24.0
+
+# Hailo-specific packages (install from dev portal)
+# hailort>=4.20.0  # Install from .whl file
+# hailo_platform>=4.20.0  # Install from .whl file
+
+# Logging and utilities
+python-json-logger>=2.0.0
+watchdog>=3.0.0
+
+# Optional: Machine learning utilities
+# torch>=2.0.0
+# torchvision>=0.15.0
+# onnx>=1.14.0

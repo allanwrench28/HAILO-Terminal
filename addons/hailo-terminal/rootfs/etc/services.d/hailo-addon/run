@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Home Assistant Hailo AI Add-on - S6 Service
+# ==============================================================================
+
+# Wait for other services
+s6-svwait -u /var/run/s6/services/prepare
+
+# Run the main application
+exec /run.sh

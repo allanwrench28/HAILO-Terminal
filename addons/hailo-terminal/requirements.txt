@@ -1,0 +1,42 @@
+# Hailo AI Terminal Python Dependencies
+
+# Core web framework
+flask>=2.3.0
+flask-socketio>=5.3.0
+
+# System monitoring
+psutil>=5.9.0
+
+# Configuration and data handling
+pyyaml>=6.0
+requests>=2.31.0
+
+# Real-time communication
+python-socketio>=5.8.0
+
+# AI Backend Support
+openai>=1.3.0              # OpenAI API client
+anthropic>=0.8.0            # Anthropic Claude API client
+aiohttp>=3.8.0              # Async HTTP for API calls
+tiktoken>=0.5.0             # Token counting for context management
+
+# Image processing (for AI features)
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.24.0
+
+# Hailo-specific packages (install from dev portal)
+# hailort>=4.20.0  # Install from .whl file
+# hailo_platform>=4.20.0  # Install from .whl file
+
+# Logging and utilities
+python-json-logger>=2.0.0
+watchdog>=3.0.0
+
+# Home Assistant API client
+homeassistant-api>=4.1.0
+
+# Optional: Advanced AI utilities
+# transformers>=4.30.0
+# torch>=2.0.0
+# onnx>=1.14.0

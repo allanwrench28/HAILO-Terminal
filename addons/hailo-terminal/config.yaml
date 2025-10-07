@@ -1,0 +1,79 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: Hailo AI Terminal
+version: "1.0.0"
+slug: hailo_ai_terminal
+description: AI-powered terminal and resource monitor for Home Assistant
+url: "https://github.com/your-repo/hailo-terminal"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+init: false
+map:
+  - "share:rw"
+  - "ssl"
+  - "media:rw"
+options:
+  # Hailo Hardware Configuration
+  model_path: "/share/hailo/models"
+  device_id: "0000:03:00.0"
+  
+  # AI Backend Configuration
+  ai_backend: "hailo"  # Options: hailo, openai, anthropic, ollama, local
+  ai_model: "llama2-7b-chat"  # Model name (depends on backend)
+  
+  # API Keys (for external services)
+  openai_api_key: ""
+  anthropic_api_key: ""
+  custom_api_url: ""  # For custom/local API endpoints
+  
+  # Performance Settings
+  max_context_length: 4096
+  temperature: 0.7
+  max_tokens: 512
+  
+  # Application Settings
+  log_level: "info"
+  enable_terminal: true
+  terminal_port: 8080
+  enable_monitoring: true
+  monitor_interval: 5
+schema:
+  # Hardware
+  model_path: str
+  device_id: str
+  
+  # AI Configuration
+  ai_backend: list(hailo|openai|anthropic|ollama|local)
+  ai_model: str
+  
+  # API Keys (optional)
+  openai_api_key: str?
+  anthropic_api_key: str?
+  custom_api_url: url?
+  
+  # Performance
+  max_context_length: int(1024,8192)
+  temperature: float(0.1,2.0)?
+  max_tokens: int(50,2048)?
+  
+  # Application
+  log_level: list(debug|info|warning|error)
+  enable_terminal: bool
+  terminal_port: port
+  enable_monitoring: bool
+  monitor_interval: int(1,60)
+ports:
+  8080/tcp: 8080
+ports_description:
+  8080/tcp: "Hailo AI Terminal Web Interface"
+startup: application
+boot: manual
+video: true
+privileged:
+  - SYS_ADMIN
+devices:
+  - "/dev/hailo0:/dev/hailo0:rwm"
+udev: true

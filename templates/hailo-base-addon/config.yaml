@@ -1,0 +1,39 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: Hailo AI Add-on Template
+version: "1.0.0"
+slug: hailo_ai_addon_template
+description: Template for building custom Hailo AI add-ons
+url: "https://github.com/your-repo/hailo-addon"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+init: false
+map:
+  - "share:rw"
+  - "ssl"
+  - "media:rw"
+options:
+  model_path: "/share/hailo/models"
+  device_id: "0000:03:00.0"
+  log_level: "info"
+  enable_api: true
+  api_port: 8080
+schema:
+  model_path: str
+  device_id: str
+  log_level: list(debug|info|warning|error)
+  enable_api: bool
+  api_port: port
+ports:
+  8080/tcp: 8080
+startup: application
+boot: manual
+video: true
+privileged:
+  - SYS_ADMIN
+devices:
+  - "/dev/hailo0:/dev/hailo0:rwm"
+udev: true

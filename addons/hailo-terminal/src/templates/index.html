@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hailo AI Terminal - Home Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --bg-overlay: #30363d;
+            --bg-subtle: #1c2128;
+            
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            
+            --accent-primary: #00d4aa;
+            --accent-secondary: #58a6ff;
+            --accent-success: #7c3aed;
+            --accent-warning: #f59e0b;
+            --accent-danger: #f87171;
+            
+            --border-default: #30363d;
+            --border-muted: #21262d;
+            
+            --shadow-default: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        /* Modern Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-default);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition-normal);
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-default);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-default);
+        }
+        
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .app-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: -2px;
+        }
+        
+        /* Navigation */
+        .nav-section {
+            padding: 1rem;
+            flex: 1;
+        }
+        
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .nav-item.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            font-weight: 500;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* System Status */
+        .system-status {
+            padding: 1rem;
+            border-top: 1px solid var(--border-default);
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+        
+        .status-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .status-value {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.online { background: var(--accent-primary); animation: pulse 2s infinite; }
+        .status-indicator.warning { background: var(--accent-warning); }
+        .status-indicator.error { background: var(--accent-danger); }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Chat Header */
+        .chat-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-default);
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-title h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .ai-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.375rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .ai-indicator .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .chat-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-btn {
+            padding: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .control-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            scroll-behavior: smooth;
+        }
+        
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--bg-overlay);
+            border-radius: 3px;
+        }
+        
+        /* Modern Message Bubbles */
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 100%;
+            opacity: 0;
+            animation: fadeInUp 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .message.user .message-avatar {
+            background: var(--accent-secondary);
+            color: white;
+        }
+        
+        .message.ai .message-avatar {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+        
+        .message-content {
+            max-width: 70%;
+            position: relative;
+        }
+        
+        .message-bubble {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-xl);
+            position: relative;
+            box-shadow: var(--shadow-default);
+            line-height: 1.5;
+        }
+        
+        .message.user .message-bubble {
+            background: var(--accent-secondary);
+            color: white;
+            border-bottom-right-radius: var(--radius-sm);
+        }
+        
+        .message.ai .message-bubble {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-bottom-left-radius: var(--radius-sm);
+            border: 1px solid var(--border-default);
+        }
+        
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+        
+        .message.user .message-time {
+            text-align: left;
+        }
+        
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 1rem 1.25rem;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+        
+        /* Message Input */
+        .message-input-container {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-default);
+            background: var(--bg-secondary);
+        }
+        
+        .message-input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            max-width: 100%;
+        }
+        
+        .input-field {
+            flex: 1;
+            position: relative;
+        }
+        
+        .message-input {
+            width: 100%;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-default);
+            border-radius: var(--radius-xl);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            transition: all var(--transition-fast);
+            font-family: inherit;
+        }
+        
+        .message-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+        
+        .message-input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .send-button {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: 50%;
+            color: var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-default);
+        }
+        
+        .send-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-large);
+        }
+        
+        .send-button:disabled {
+            background: var(--bg-overlay);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Code Blocks */
+        .message-bubble pre {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-md);
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .message-bubble code {
+            font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+            font-size: 0.8125rem;
+        }
+        
+        .message-bubble p code {
+            background: var(--bg-primary);
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-md);
+            padding: 0.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        
+        /* Automation UI Styles */
+        .automation-suggestions {
+            margin-bottom: 2rem !important;
+        }
+        
+        .automation-bubble {
+            background: var(--bg-tertiary) !important;
+            border: 1px solid var(--accent-primary) !important;
+            border-radius: var(--radius-xl) !important;
+        }
+        
+        .automation-card {
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+        
+        .automation-card:hover {
+            background: var(--bg-subtle) !important;
+            transform: translateY(-1px);
+        }
+        
+        .automation-card button {
+            transition: all var(--transition-fast);
+        }
+        
+        .automation-card button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-default);
+        }
+        
+        .automation-dialog {
+            backdrop-filter: blur(8px);
+        }
+        
+        .yaml-preview-dialog {
+            backdrop-filter: blur(8px);
+        }
+        
+        .yaml-preview-dialog pre {
+            font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        /* Enhanced message bubbles for automation content */
+        .message.ai .message-avatar i {
+            font-size: 0.875rem;
+        }
+        
+        /* Form styling */
+        .automation-dialog input {
+            transition: all var(--transition-fast);
+        }
+        
+        .automation-dialog input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+        
+        /* Status indicators for automation cards */
+        .complexity-badge {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 1000;
+                height: 100vh;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .chat-container {
+                padding: 1rem;
+            }
+            
+            .message-input-container {
+                padding: 1rem;
+            }
+            
+            .automation-dialog div[style*="max-width: 500px"] {
+                max-width: 95% !important;
+                padding: 1.5rem !important;
+            }
+            
+            .yaml-preview-dialog div[style*="max-width: 800px"] {
+                max-width: 95% !important;
+                padding: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="app-container">
+        <!-- Modern Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">H</div>
+                <div>
+                    <div class="app-title">Hailo AI Terminal</div>
+                    <div class="app-subtitle">Home Assistant</div>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Features</div>
+                <div class="nav-item active">
+                    <i class="fas fa-robot nav-icon"></i>
+                    AI Assistant
+                </div>
+                <div class="nav-item" onclick="toggleResourceMonitor()">
+                    <i class="fas fa-chart-line nav-icon"></i>
+                    Resource Monitor
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-cogs nav-icon"></i>
+                    Automations
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-microchip nav-icon"></i>
+                    Hailo Hardware
+                </div>
+                
+                <div class="nav-title" style="margin-top: 1.5rem;">AI Backends</div>
+                <div class="nav-item" onclick="switchBackend('hailo')">
+                    <i class="fas fa-microchip nav-icon"></i>
+                    Hailo Local
+                </div>
+                <div class="nav-item" onclick="switchBackend('openai')">
+                    <i class="fas fa-brain nav-icon"></i>
+                    OpenAI GPT
+                </div>
+                <div class="nav-item" onclick="switchBackend('anthropic')">
+                    <i class="fas fa-atom nav-icon"></i>
+                    Claude
+                </div>
+                <div class="nav-item" onclick="switchBackend('ollama')">
+                    <i class="fas fa-server nav-icon"></i>
+                    Ollama
+                </div>
+            </div>
+            
+            <div class="system-status">
+                <div class="status-item">
+                    <span class="status-label">AI Backend</span>
+                    <span class="status-value">
+                        <span id="current-backend">OpenAI</span>
+                        <span class="status-indicator online" id="ai-status"></span>
+                    </span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">HA Connection</span>
+                    <span class="status-value">
+                        <span id="ha-status-text">Connected</span>
+                        <span class="status-indicator online" id="ha-status"></span>
+                    </span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Hailo Device</span>
+                    <span class="status-value">
+                        <span id="hailo-status-text">Available</span>
+                        <span class="status-indicator warning" id="hailo-device-status"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-title">
+                    <h2>AI Assistant</h2>
+                    <div class="ai-indicator">
+                        <div class="pulse-dot"></div>
+                        <span>Online</span>
+                    </div>
+                </div>
+                <div class="chat-controls">
+                    <button class="control-btn" onclick="clearChat()" title="Clear Chat">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="control-btn" onclick="exportChat()" title="Export Chat">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="control-btn" onclick="toggleSettings()" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chat Container -->
+            <div class="chat-container" id="chat-container">
+                <div class="message ai">
+                    <div class="message-avatar">H</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <p>🚀 <strong>Welcome to Hailo AI Terminal!</strong></p>
+                            <p>I'm your intelligent Home Assistant companion, powered by Hailo AI hardware. I can help you with:</p>
+                            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                <li>Creating and optimizing automations</li>
+                                <li>YAML configuration assistance</li>
+                                <li>System performance monitoring</li>
+                                <li>Device troubleshooting</li>
+                                <li>Smart home optimization</li>
+                            </ul>
+                            <p>What would you like to explore today?</p>
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Message Input -->
+            <div class="message-input-container">
+                <div class="message-input-wrapper">
+                    <div class="input-field">
+                        <textarea 
+                            class="message-input" 
+                            id="message-input" 
+                            placeholder="Ask me anything about Home Assistant, automations, or performance optimization..."
+                            rows="1"
+                            onkeydown="handleKeyDown(event)"
+                            oninput="autoResize(this)"
+                        ></textarea>
+                    </div>
+                    <button class="send-button" id="send-button" onclick="sendMessage()" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Socket.IO connection
+        const socket = io();
+        let isTyping = false;
+        let currentBackend = 'openai';
+        
+        // DOM Elements
+        const chatContainer = document.getElementById('chat-container');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            messageInput.focus();
+            updateBackendStatus();
+            checkSystemStatus();
+        });
+        
+        // Message input handling
+        messageInput.addEventListener('input', function() {
+            sendButton.disabled = this.value.trim().length === 0;
+        });
+        
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+        
+        // Chat functionality
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || isTyping) return;
+            
+            // Add user message
+            addMessage('user', message);
+            
+            // Clear input
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            sendButton.disabled = true;
+            
+            // Show typing indicator
+            showTypingIndicator();
+            isTyping = true;
+            
+            // Send to backend
+            socket.emit('user_query', {
+                query: message,
+                backend: currentBackend
+            });
+        }
+        
+        function addMessage(type, content, timestamp = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = type === 'user' ? 'U' : 'H';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            
+            // Process markdown for AI messages
+            if (type === 'ai') {
+                bubble.innerHTML = marked.parse(content);
+                // Highlight code blocks
+                bubble.querySelectorAll('pre code').forEach((block) => {
+                    Prism.highlightElement(block);
+                });
+            } else {
+                bubble.textContent = content;
+            }
+            
+            const time = document.createElement('div');
+            time.className = 'message-time';
+            time.textContent = timestamp || new Date().toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            messageContent.appendChild(bubble);
+            messageContent.appendChild(time);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai';
+            typingDiv.id = 'typing-indicator';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = 'H';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            
+            bubble.appendChild(indicator);
+            content.appendChild(bubble);
+            typingDiv.appendChild(avatar);
+            typingDiv.appendChild(content);
+            
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            isTyping = false;
+        }
+        
+        // Socket event handlers
+        socket.on('ai_response', function(data) {
+            hideTypingIndicator();
+            
+            // Add the main AI response
+            addMessage('ai', data.response || data.content, data.timestamp);
+            
+            // If there are automation suggestions, add automation UI
+            if (data.automation_suggestions && data.automation_suggestions.length > 0) {
+                addAutomationSuggestions(data.automation_suggestions);
+            }
+        });
+        
+        socket.on('ai_error', function(data) {
+            hideTypingIndicator();
+            addMessage('ai', `⚠️ Sorry, I encountered an error: ${data.error}`, data.timestamp);
+        });
+        
+        // Backend management
+        function switchBackend(backend) {
+            fetch('/api/switch_backend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ backend: backend })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    currentBackend = backend;
+                    updateBackendStatus();
+                    addMessage('ai', `🔄 Switched to ${backend.toUpperCase()} backend`);
+                } else {
+                    addMessage('ai', `❌ Failed to switch to ${backend}: ${data.error}`);
+                }
+            })
+            .catch(error => {
+                addMessage('ai', `❌ Error switching backend: ${error.message}`);
+            });
+        }
+        
+        function updateBackendStatus() {
+            fetch('/api/backends')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('current-backend').textContent = 
+                        data.current.charAt(0).toUpperCase() + data.current.slice(1);
+                    
+                    // Update nav items
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Highlight current backend
+                    const backendItems = {
+                        'hailo': 0,
+                        'openai': 1,
+                        'anthropic': 2,
+                        'ollama': 3
+                    };
+                    
+                    const navItems = document.querySelectorAll('.nav-item');
+                    if (backendItems[data.current] !== undefined) {
+                        navItems[backendItems[data.current] + 4].classList.add('active');
+                    }
+                })
+                .catch(error => console.error('Error updating backend status:', error));
+        }
+        
+        function checkSystemStatus() {
+            fetch('/api/health')
+                .then(response => response.json())
+                .then(data => {
+                    // Update status indicators
+                    const aiStatus = document.getElementById('ai-status');
+                    const haStatus = document.getElementById('ha-status');
+                    const hailoStatus = document.getElementById('hailo-device-status');
+                    
+                    aiStatus.className = `status-indicator ${data.status === 'healthy' ? 'online' : 'error'}`;
+                    
+                    // Mock HA status for now
+                    haStatus.className = 'status-indicator online';
+                    
+                    // Mock Hailo status
+                    hailoStatus.className = 'status-indicator warning';
+                    document.getElementById('hailo-status-text').textContent = 'Simulated';
+                })
+                .catch(error => {
+                    console.error('Error checking system status:', error);
+                    document.getElementById('ai-status').className = 'status-indicator error';
+                });
+        }
+        
+        // UI Functions
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        function clearChat() {
+            if (confirm('Are you sure you want to clear the chat history?')) {
+                const messages = chatContainer.querySelectorAll('.message');
+                messages.forEach((msg, index) => {
+                    if (index > 0) { // Keep the welcome message
+                        msg.remove();
+                    }
+                });
+            }
+        }
+        
+        function exportChat() {
+            const messages = Array.from(chatContainer.querySelectorAll('.message')).map(msg => {
+                const type = msg.classList.contains('user') ? 'User' : 'Assistant';
+                const content = msg.querySelector('.message-bubble').textContent;
+                const time = msg.querySelector('.message-time').textContent;
+                return `[${time}] ${type}: ${content}`;
+            }).join('\n\n');
+            
+            const blob = new Blob([messages], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `hailo-chat-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function toggleSettings() {
+            // Placeholder for settings modal
+            alert('Settings panel coming soon!');
+        }
+        
+        function toggleResourceMonitor() {
+            // Placeholder for resource monitor
+            alert('Resource monitor panel coming soon!');
+        }
+        
+        // Automation Management Functions
+        function addAutomationSuggestions(suggestions) {
+            const automationDiv = document.createElement('div');
+            automationDiv.className = 'message ai automation-suggestions';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = '<i class="fas fa-magic"></i>';
+            avatar.style.background = 'var(--accent-success)';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble automation-bubble';
+            
+            let html = '<h4 style="margin-bottom: 1rem; color: var(--accent-primary);"><i class="fas fa-robot"></i> Ready-to-Use Automations</h4>';
+            
+            suggestions.forEach((suggestion, index) => {
+                const complexity = suggestion.complexity;
+                const complexityColor = complexity === 'beginner' ? 'var(--accent-primary)' : 
+                                      complexity === 'intermediate' ? 'var(--accent-warning)' : 'var(--accent-danger)';
+                
+                html += `
+                    <div class="automation-card" style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-overlay); border-radius: var(--radius-md); border-left: 3px solid ${complexityColor};">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <h5 style="color: var(--text-primary); margin: 0;">${suggestion.name}</h5>
+                            <span style="background: ${complexityColor}; color: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;">${complexity.toUpperCase()}</span>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.875rem;">${suggestion.description}</p>
+                        ${suggestion.required_entities && suggestion.required_entities.length > 0 ? 
+                            `<p style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-plug"></i> Requires: ${suggestion.required_entities.join(', ')}</p>` : ''}
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="createAutomation('${suggestion.id}')" style="background: var(--accent-primary); color: var(--bg-primary); border: none; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-weight: 500; transition: all var(--transition-fast);">
+                                <i class="fas fa-plus"></i> Create This
+                            </button>
+                            <button onclick="previewAutomation('${suggestion.id}')" style="background: transparent; color: var(--text-secondary); border: 1px solid var(--border-default); padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast);">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            bubble.innerHTML = html;
+            content.appendChild(bubble);
+            automationDiv.appendChild(avatar);
+            automationDiv.appendChild(content);
+            
+            chatContainer.appendChild(automationDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function createAutomation(templateId) {
+            // Show automation creation dialog
+            showAutomationDialog(templateId);
+        }
+        
+        function previewAutomation(templateId) {
+            // Generate and show YAML preview
+            fetch('/api/automation/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    template_id: templateId,
+                    parameters: getDefaultParameters(templateId)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showYamlPreview(data.yaml, data.automation);
+                } else {
+                    alert('Error generating preview: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+        
+        function showAutomationDialog(templateId) {
+            const dialog = document.createElement('div');
+            dialog.className = 'automation-dialog';
+            dialog.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+            `;
+            
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: var(--bg-secondary);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+                max-width: 500px;
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                border: 1px solid var(--border-default);
+            `;
+            
+            content.innerHTML = `
+                <h3 style="color: var(--text-primary); margin-bottom: 1.5rem;">
+                    <i class="fas fa-magic"></i> Create Automation
+                </h3>
+                <form id="automation-form">
+                    <div id="parameter-fields"></div>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="button" onclick="generateAndSaveAutomation('${templateId}')" 
+                                style="flex: 1; background: var(--accent-primary); color: var(--bg-primary); border: none; padding: 0.75rem; border-radius: var(--radius-md); cursor: pointer; font-weight: 600;">
+                            <i class="fas fa-save"></i> Create & Save
+                        </button>
+                        <button type="button" onclick="closeAutomationDialog()" 
+                                style="background: var(--bg-overlay); color: var(--text-secondary); border: 1px solid var(--border-default); padding: 0.75rem 1rem; border-radius: var(--radius-md); cursor: pointer;">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            `;
+            
+            dialog.appendChild(content);
+            document.body.appendChild(dialog);
+            
+            // Add parameter fields based on template
+            loadParameterFields(templateId);
+            
+            // Store reference for cleanup
+            window.currentAutomationDialog = dialog;
+        }
+        
+        function closeAutomationDialog() {
+            if (window.currentAutomationDialog) {
+                window.currentAutomationDialog.remove();
+                window.currentAutomationDialog = null;
+            }
+        }
+        
+        function loadParameterFields(templateId) {
+            // This would load the specific parameters needed for the template
+            const fieldsContainer = document.getElementById('parameter-fields');
+            
+            // Common parameters for most templates
+            fieldsContainer.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 500;">Automation Name</label>
+                    <input type="text" name="name" placeholder="My Custom Automation" 
+                           style="width: 100%; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 500;">Room/Location</label>
+                    <input type="text" name="room" placeholder="living_room" 
+                           style="width: 100%; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 500;">Entity ID (sensor, light, etc.)</label>
+                    <input type="text" name="entity" placeholder="light.living_room_main" 
+                           style="width: 100%; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+                </div>
+            `;
+        }
+        
+        function generateAndSaveAutomation(templateId) {
+            const form = document.getElementById('automation-form');
+            const formData = new FormData(form);
+            const parameters = {};
+            
+            for (let [key, value] of formData.entries()) {
+                parameters[key] = value;
+            }
+            
+            // Generate automation
+            fetch('/api/automation/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    template_id: templateId,
+                    parameters: parameters
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Test and save automation
+                    return fetch('/api/automation/save', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            automation: data.automation,
+                            test_first: true
+                        })
+                    });
+                } else {
+                    throw new Error(data.error);
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                closeAutomationDialog();
+                if (data.success) {
+                    addMessage('ai', `✅ **Automation Created Successfully!**\n\n${data.message}\n\nYour new automation is now active in Home Assistant.`);
+                } else {
+                    addMessage('ai', `❌ **Automation Creation Failed**\n\n${data.message}\n\nPlease check your configuration and try again.`);
+                }
+            })
+            .catch(error => {
+                closeAutomationDialog();
+                addMessage('ai', `❌ **Error Creating Automation**\n\n${error.message}\n\nPlease try again or check your Home Assistant connection.`);
+            });
+        }
+        
+        function showYamlPreview(yaml, automation) {
+            const dialog = document.createElement('div');
+            dialog.className = 'yaml-preview-dialog';
+            dialog.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+            `;
+            
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: var(--bg-secondary);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+                max-width: 800px;
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                border: 1px solid var(--border-default);
+            `;
+            
+            content.innerHTML = `
+                <h3 style="color: var(--text-primary); margin-bottom: 1.5rem;">
+                    <i class="fas fa-code"></i> Automation YAML Preview
+                </h3>
+                <pre style="background: var(--bg-primary); padding: 1rem; border-radius: var(--radius-md); overflow-x: auto; border: 1px solid var(--border-default);"><code class="language-yaml">${yaml}</code></pre>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button onclick="copyYaml('${btoa(yaml)}')" 
+                            style="background: var(--accent-primary); color: var(--bg-primary); border: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-weight: 500;">
+                        <i class="fas fa-copy"></i> Copy YAML
+                    </button>
+                    <button onclick="closeYamlPreview()" 
+                            style="background: var(--bg-overlay); color: var(--text-secondary); border: 1px solid var(--border-default); padding: 0.75rem 1rem; border-radius: var(--radius-md); cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            dialog.appendChild(content);
+            document.body.appendChild(dialog);
+            
+            // Highlight syntax
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+            
+            window.currentYamlDialog = dialog;
+        }
+        
+        function closeYamlPreview() {
+            if (window.currentYamlDialog) {
+                window.currentYamlDialog.remove();
+                window.currentYamlDialog = null;
+            }
+        }
+        
+        function copyYaml(encodedYaml) {
+            const yaml = atob(encodedYaml);
+            navigator.clipboard.writeText(yaml).then(() => {
+                // Show copied feedback
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.style.background = 'var(--accent-success)';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'var(--accent-primary)';
+                }, 2000);
+            });
+        }
+        
+        function getDefaultParameters(templateId) {
+            // Default parameters for testing
+            return {
+                name: 'Test Automation',
+                room: 'living_room',
+                entity: 'light.living_room_main'
+            };
+        }
+
+        // Entity Discovery Functions
+        async function loadEntityDiscovery() {
+            try {
+                const response = await fetch('/api/entities/discovery');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayEntitySummary(result.discovery);
+                } else {
+                    console.warn('Entity discovery failed:', result.error);
+                }
+            } catch (error) {
+                console.error('Error loading entity discovery:', error);
+            }
+        }
+
+        function displayEntitySummary(discovery) {
+            const capabilities = discovery.automation_capabilities || {};
+            const entityCount = capabilities.total_entities || 0;
+            
+            // Create entity info display
+            const entityInfo = document.createElement('div');
+            entityInfo.className = 'entity-summary text-xs text-secondary mb-2';
+            entityInfo.innerHTML = `
+                <i class="fas fa-home"></i> 
+                ${entityCount} entities discovered
+                ${capabilities.lights > 0 ? ` | ${capabilities.lights} lights` : ''}
+                ${capabilities.motion_sensors > 0 ? ` | ${capabilities.motion_sensors} motion sensors` : ''}
+                ${capabilities.climate_devices > 0 ? ` | ${capabilities.climate_devices} climate` : ''}
+            `;
+            
+            // Add to sidebar if it exists
+            const sidebar = document.querySelector('.sidebar .p-4');
+            if (sidebar && !sidebar.querySelector('.entity-summary')) {
+                sidebar.appendChild(entityInfo);
+            }
+        }
+
+        async function getRelevantEntities(templateId) {
+            try {
+                const response = await fetch(`/api/automation/relevant-entities/${templateId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    return result.relevant_entities;
+                } else {
+                    console.warn('Failed to get relevant entities:', result.error);
+                    return {};
+                }
+            } catch (error) {
+                console.error('Error getting relevant entities:', error);
+                return {};
+            }
+        }
+
+        // Load entity discovery on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEntityDiscovery();
+        });
+
+        // Auto-update status every 30 seconds
+        setInterval(checkSystemStatus, 30000);
+        setInterval(updateBackendStatus, 30000);
+    </script>
+</body>
+</html>

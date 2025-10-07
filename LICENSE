@@ -1,0 +1,91 @@
+MIT License
+
+Copyright (c) 2024 Hailo AI Terminal Add-on Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Third-Party Licenses
+
+### Hailo Software Components
+
+This add-on integrates with Hailo Technologies' software components, which are subject to their own licensing terms:
+
+- **Hailo Runtime (HailoRT)**: Subject to Hailo's End User License Agreement
+- **Hailo AI Software Suite**: Subject to Hailo's commercial licensing terms  
+- **Hailo Model Zoo**: Individual models may have specific license requirements
+- **Hailo Dataflow Compiler**: Subject to Hailo's development tools license
+
+**Important**: Users must obtain these components directly from Hailo Technologies and agree to their respective license terms. This add-on does not include or redistribute any Hailo proprietary software.
+
+### Home Assistant Integration
+
+This add-on is built for the Home Assistant ecosystem:
+
+- **Home Assistant Core**: Apache License 2.0
+- **Home Assistant Add-on Framework**: Apache License 2.0
+
+### Python Dependencies
+
+Key Python packages used (see requirements.txt for complete list):
+
+- **Flask**: BSD License
+- **psutil**: BSD License  
+- **requests**: Apache License 2.0
+- **pyyaml**: MIT License
+- **jinja2**: BSD License
+
+### JavaScript/CSS Dependencies
+
+Frontend dependencies:
+
+- **Bootstrap**: MIT License
+- **Chart.js**: MIT License
+- **Font Awesome**: Font Awesome Free License
+
+---
+
+## License Compliance
+
+### For Users
+By using this add-on, you acknowledge that:
+
+1. **This add-on** is provided under the MIT License
+2. **Hailo components** require separate licensing from Hailo Technologies
+3. **You are responsible** for compliance with all applicable license terms
+
+### For Contributors
+By contributing to this project, you:
+
+1. **Grant** the right to distribute your contributions under the MIT License
+2. **Confirm** you have the right to make such contributions
+3. **Agree** to include appropriate license headers in new files
+
+### For Redistributors
+If redistributing this add-on:
+
+1. **Include** this LICENSE file
+2. **Preserve** all copyright notices
+3. **Do not redistribute** Hailo proprietary components
+4. **Direct users** to obtain Hailo components from official sources
+
+---
+
+For questions about licensing, please contact the project maintainers.
