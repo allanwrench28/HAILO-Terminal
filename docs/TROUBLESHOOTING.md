@@ -4,6 +4,45 @@ Quick solutions for common Hailo package installation issues.
 
 ## 🚨 Common Error Messages & Solutions
 
+### ❌ "Docker build failed" with "File format not recognized"
+```
+xz: (stdin): File format not recognized
+tar: Child returned status 1
+tar: Error is not recoverable: exiting now
+ERROR: failed to build: process "/bin/bash -o pipefail -c ..." did not complete successfully: exit code: 2
+```
+
+**This error occurs during S6-Overlay installation in the Docker build process.**
+
+**Root Cause:**
+The curl command was piping directly to tar, which could fail silently during network issues, rate limiting, or redirect problems, causing tar to receive invalid data.
+
+**Solution:**
+✅ **This issue has been fixed in version 1.0.1+**
+
+The Dockerfiles have been updated to:
+1. Download S6-Overlay files to temporary location first
+2. Verify the download completed successfully
+3. Then extract the files
+4. Clean up temporary files
+
+**If you're still experiencing this:**
+1. **Update to the latest version** of the add-on
+2. **Clear Docker build cache**: Go to Home Assistant → Settings → Add-ons → (Three dots) → Rebuild
+3. **Check network connectivity** to github.com
+4. **Wait a few minutes** if GitHub rate limiting is in effect
+
+**For developers:** The fix changes from:
+```dockerfile
+# Old (problematic):
+curl -L -f -s "URL" | tar Jxvf - -C /
+
+# New (reliable):
+curl -L -f -o /tmp/file.tar.xz "URL" \
+    && tar -C / -Jxpf /tmp/file.tar.xz \
+    && rm -f /tmp/file.tar.xz
+```
+
 ### ❌ "Package directory not found"
 ```
 ERROR: Package directory not found: /share/hailo/packages

@@ -6,7 +6,7 @@ LABEL \
     io.hass.description="AI-powered terminal and resource monitor for Home Assistant" \
     io.hass.arch="armhf|armv7|aarch64|amd64|i386" \
     io.hass.type="addon" \
-    io.hass.version="1.0.0"
+    io.hass.version="1.0.1"
 
 # Environment variables
 ENV \
