@@ -54,14 +54,18 @@ RUN \
     && rm -rf /var/lib/apt/lists/*
 
 # Install S6-Overlay for proper init system
-RUN \
-    ARCH=$(dpkg --print-architecture) \
-    && curl -L -f -s \
+# Download architecture-specific overlay
+RUN ARCH=$(dpkg --print-architecture) \
+    && curl -L -f -o /tmp/s6-overlay-arch.tar.xz \
         "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${ARCH}.tar.xz" \
-        | tar Jxvf - -C / \
-    && curl -L -f -s \
+    && tar -C / -Jxpf /tmp/s6-overlay-arch.tar.xz \
+    && rm -f /tmp/s6-overlay-arch.tar.xz
+
+# Download noarch overlay
+RUN curl -L -f -o /tmp/s6-overlay-noarch.tar.xz \
         "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
-        | tar Jxvf - -C / \
+    && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+    && rm -f /tmp/s6-overlay-noarch.tar.xz \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d
 
