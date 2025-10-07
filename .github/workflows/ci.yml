@@ -1,4 +1,4 @@
-name: "HACS Validation & Build"
+name: "Add-on CI/CD"
 
 on:
   push:
@@ -14,22 +14,9 @@ on:
       - published
 
 jobs:
-  validate:
-    runs-on: "ubuntu-latest"
-    name: "HACS Validation"
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v4"
-
-      - name: "HACS Validation"
-        uses: "hacs/action@main"
-        with:
-          category: "addon"
-
   build:
     runs-on: "ubuntu-latest"
     name: "Build Add-on"
-    needs: validate
     strategy:
       matrix:
         arch: ["aarch64", "amd64", "armhf", "armv7", "i386"]

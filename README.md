@@ -1,5 +1,8 @@
 # 🤖 Hailo AI Terminal for Home Assistant
 
+> **📦 This is a Home Assistant Add-on** (not a HACS integration)
+> Add-ons are installed through Home Assistant's Add-on Store, not HACS.
+
 **Turn your Home Assistant into an AI-powered automation genius!** 
 
 This add-on gives you a smart AI assistant that can see ALL your devices and help you create automations using plain English.
