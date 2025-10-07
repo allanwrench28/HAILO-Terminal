@@ -1,7 +1,0 @@
-{
-  "name": "Hailo AI Terminal",
-  "content_in_root": false,
-  "filename": "hailo-terminal",
-  "country": ["US", "CA", "GB", "AU", "DE", "FR", "NL", "SE", "NO", "DK"],
-  "homeassistant": "2023.9.0"
-}

@@ -4,7 +4,7 @@
 - **Repository Name**: HAILO-Terminal
 - **Git Repository**: Initialized and ready
 - **Initial Commit**: Complete (55 files, 13,813+ lines)
-- **HACS Compatibility**: Fully configured
+- **Add-on Repository**: Properly configured for Home Assistant
 - **Documentation**: Comprehensive and complete
 
 ## What's Included 📦
@@ -29,9 +29,9 @@
 - ✅ Automatic configuration updates
 - ✅ File management and directory creation
 
-### HACS Integration
-- ✅ `hacs.json` - HACS metadata configured
-- ✅ `repository.json` - Repository configuration
+### Add-on Repository Configuration
+- ✅ `repository.json` - Add-on repository metadata
+- ✅ `repository.yaml` - Add-on repository configuration
 - ✅ Proper versioning and changelog
 - ✅ Professional README with badges
 
@@ -58,13 +58,13 @@ git push -u origin main
 - Go to Settings → Pages
 - Source: Deploy from a branch
 - Branch: main / (root)
-- Add topics: `home-assistant`, `hailo`, `ai`, `automation`, `hacs`
+- Add topics: `home-assistant`, `hailo`, `ai`, `automation`, `addon`
 
 ## Community Ready Features 🌟
 
 ### For Users
 - **One-click installation** via automated PowerShell script
-- **HACS integration** for easy discovery and updates
+- **Add-on repository** for easy installation through Home Assistant
 - **Comprehensive documentation** with exact app names and steps
 - **Multiple AI backends** with automatic failover
 
@@ -91,10 +91,10 @@ Your users will get:
 
 ## Next Steps After GitHub Push 🎯
 1. **Create first release** (v1.0.0) with release notes
-2. **Submit to HACS** community store
-3. **Share on Home Assistant forums** and Reddit
-4. **Create video tutorials** for complex setups
-5. **Monitor user feedback** and iterate
+2. **Share on Home Assistant forums** and Reddit
+3. **Create video tutorials** for complex setups
+4. **Monitor user feedback** and iterate
+5. **Update documentation** with community feedback
 
 ---
 
@@ -104,7 +104,7 @@ This represents a complete, professional-grade Home Assistant add-on with:
 - Smart AI entity discovery
 - Automated installation system  
 - Crystal-clear documentation
-- HACS compatibility
+- Proper add-on repository configuration
 - Community-ready distribution
 
 The repository contains everything needed for users to go from "I want this" to "It's working perfectly" with minimal friction.

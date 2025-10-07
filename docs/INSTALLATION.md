@@ -12,7 +12,7 @@ This guide walks you through installing and configuring the Hailo AI Terminal ad
 
 ### Software Requirements  
 - ✅ **Home Assistant 2023.3.0+**
-- ✅ **HACS (Home Assistant Community Store)**
+- ✅ **Home Assistant OS** or **Home Assistant Supervised** (for add-on support)
 - ✅ **Hailo Developer Account** (for package downloads)
 
 ## 🔑 Step 1: Obtain Hailo Packages
@@ -74,29 +74,33 @@ scp *.deb root@your-ha-ip:/share/hailo/packages/
 2. Access `\\your-ha-ip\share\hailo\packages\`
 3. Copy files directly via network share
 
-## 🏪 Step 2: Install via HACS
+## 🏪 Step 2: Add the Add-on Repository
 
-### 2.1 Add Custom Repository
-1. Open **HACS** in Home Assistant
-2. Click **⋮** (three dots menu) → **Custom repositories**
-3. Add repository: `https://github.com/your-username/hailo-terminal-addon`
-4. Category: **Add-on**
-5. Click **Add**
+**Important**: This is a Home Assistant **Add-on**, not a HACS integration. HACS does not support add-ons - they must be installed through Home Assistant's Add-on Store.
 
-### 2.2 Install the Add-on Repository
-1. Search for **"Hailo AI Terminal"** in HACS
-2. Click the repository
-3. Click **Download**
-4. Wait for download to complete
-5. **Restart Home Assistant**
+### 2.1 Add Custom Repository to Home Assistant
+1. Open **Home Assistant**
+2. Navigate to **Settings** → **Add-ons**
+3. Click **Add-on Store** (bottom right)
+4. Click the **⋮** (three dots menu) in the top right corner
+5. Select **Repositories**
+6. Add this repository URL:
+   ```
+   https://github.com/allanwrench28/HAILO-Terminal
+   ```
+7. Click **Add** → **Close**
+
+### 2.2 Install the Add-on
+1. **Refresh** the Add-on Store page (if necessary)
+2. Scroll down to find **"Hailo AI Terminal"** in the list
+3. Click on the add-on
+4. Click **Install**
+5. Wait for installation to complete (this may take several minutes)
 
 ## ⚙️ Step 3: Configure the Add-on
 
-### 3.1 Access Add-on Store
-1. Navigate to **Settings** → **Add-ons**
-2. Click **Add-on Store** tab
-3. Find **"Hailo AI Terminal"**
-4. Click **Install**
+### 3.1 Initial Configuration
+After installation completes:
 
 ### 3.2 Choose Your AI Backend
 

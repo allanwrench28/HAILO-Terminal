@@ -16,17 +16,27 @@ This add-on gives you a smart AI assistant that can see ALL your devices and hel
 ### Step 1: Do you have Home Assistant?
 **Need Home Assistant?** → https://www.home-assistant.io/installation/
 
-### Step 2: Do you have HACS installed?
-**Need HACS?** → https://hacs.xyz/docs/setup/download
+### Step 2: Add the Add-on Repository
 
-### Step 3: Install This Add-on
+**Note**: This is a Home Assistant **Add-on**, not a HACS integration. Add-ons are installed directly through Home Assistant's Add-on Store.
 
-**Easiest Method (HACS - Recommended):**
-1. Open HACS in Home Assistant
-2. Click the three dots (⋮) → Custom repositories  
-3. Paste: `https://github.com/allanwrench28/HAILO-Terminal`
-4. Category: Integration
-5. Click Add → Install
+1. **Open** Home Assistant
+2. Navigate to **Settings** → **Add-ons** → **Add-on Store**
+3. Click the **⋮** (three dots menu) in the top right
+4. Select **Repositories**
+5. **Add** this repository URL:
+   ```
+   https://github.com/allanwrench28/HAILO-Terminal
+   ```
+6. Click **Add** → **Close**
+
+### Step 3: Install the Add-on
+
+1. **Refresh** the Add-on Store page
+2. Find **"Hailo AI Terminal"** in the list
+3. Click on it
+4. Click **Install**
+5. Wait for installation to complete
 
 **Alternative Method (Windows PowerShell):**
 1. Press `Windows + R`
