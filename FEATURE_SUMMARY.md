@@ -119,7 +119,7 @@ The **Hailo AI Terminal** is a sophisticated Home Assistant add-on that provides
 ### Ready for Production
 - ✅ Complete codebase implementation
 - ✅ Docker containerization
-- ✅ HACS compatibility
+- ✅ Add-on repository configuration
 - ✅ Comprehensive testing
 - ✅ Modern UI/UX
 - ✅ Multi-backend AI support

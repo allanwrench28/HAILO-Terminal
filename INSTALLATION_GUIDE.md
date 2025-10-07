@@ -137,24 +137,21 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ---
 
-## 🏆 **HACS INSTALLATION (ALTERNATIVE - EASIER)**
+## 🏆 **ADD-ON STORE INSTALLATION (RECOMMENDED)**
 
-### **When Available on HACS:**
+### **Install Through Home Assistant:**
 
-1. **Install HACS** (if not already installed):
-   - Follow: https://hacs.xyz/docs/setup/download
+**Note**: This is a Home Assistant **Add-on**, not a HACS integration. Add-ons are installed through Home Assistant's Add-on Store.
 
-2. **Add Custom Repository:**
-   - HACS → Integrations → ⋮ (menu) → Custom repositories
-   - Repository: `https://github.com/your-repo/hailo-terminal`
-   - Type: Integration
-
-3. **Install:**
-   - Search for "Hailo AI Terminal"
-   - Click Install
-   - Restart Home Assistant
-
-**Note:** HACS version is coming soon! For now, use the manual installation above.
+1. **Open Home Assistant**
+2. **Navigate to** Settings → Add-ons → Add-on Store
+3. **Click** ⋮ (three dots menu) → Repositories
+4. **Add repository**: `https://github.com/allanwrench28/HAILO-Terminal`
+5. **Click** Add → Close
+6. **Refresh** the page
+7. **Find** "Hailo AI Terminal" in the list
+8. **Click** Install
+9. **Configure** and start the add-on
 
 ---
 

@@ -46,7 +46,7 @@ git push -u origin main
 - ✅ **Enhanced entity discovery** - AI sees all your HA entities
 - ✅ **Smart automation recommendations** using your real devices
 - ✅ **Automated PowerShell installer** with crystal-clear instructions
-- ✅ **HACS compatibility** for community distribution
+- ✅ **Add-on repository** for easy installation through Home Assistant
 - ✅ **Professional documentation** suite
 
 ## Repository URL
