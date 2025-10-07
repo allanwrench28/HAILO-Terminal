@@ -121,7 +121,7 @@ RUN \
     && python3 -m pip install -r requirements.txt
 
 # Set Python path
-ENV PYTHONPATH="/home/hailo_terminal/src:$PYTHONPATH"
+ENV PYTHONPATH="/home/hailo_terminal/src:${PYTHONPATH:-}"
 
 # Make run script executable
 RUN chmod a+x /run.sh

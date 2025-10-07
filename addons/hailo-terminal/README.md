@@ -36,7 +36,10 @@ An intelligent AI-powered terminal and resource monitor that runs directly in yo
    - `hailort-X.X.X-cp310-cp310-linux_aarch64.whl` - Python runtime
    - Any AI models you want to use (`.hef` files)
 
-3. Place these files in the `hailo_packages/` directory
+3. Place these files in Home Assistant's `/addons/` directory (accessible via Samba share)
+   - **For users**: Follow the [Simple Install Guide](../../SIMPLE_INSTALL_GUIDE.md) - place files in `/addons/` folder
+   - **For developers**: You can place files in the local `hailo_packages/` directory before building
+   - The add-on will automatically detect and install packages from either location at runtime
 
 ### Step 2: Install the Add-on
 1. Copy this entire `hailo-terminal` folder to your Home Assistant `addons/` directory
@@ -93,7 +96,7 @@ hailo-terminal/
 ├── Dockerfile            # Container build instructions
 ├── run.sh                # Startup script
 ├── requirements.txt      # Python dependencies
-├── hailo_packages/       # Hailo runtime and model files
+├── hailo_packages/       # Directory for Hailo packages (empty by default, populated at runtime)
 └── src/                  # Application source code
     ├── hailo_terminal.py # Main application
     └── templates/        # Web interface templates
@@ -120,7 +123,7 @@ hailo-terminal/
 ### Extending the Terminal
 You can extend the AI capabilities by:
 
-1. **Adding New Models**: Place `.hef` files in `hailo_packages/`
+1. **Adding New Models**: Place `.hef` files in `/addons/` or `/share/hailo/models/`
 2. **Custom Prompts**: Modify the AI context in `HailoAIEngine`
 3. **New Metrics**: Add monitoring for additional system resources
 4. **UI Enhancements**: Customize the web interface in `templates/`
@@ -199,8 +202,9 @@ AI: "Let me check your system:
    - Verify device permissions in Home Assistant
 
 2. **AI Not Responding**
-   - Check Hailo model files are in `hailo_packages/`
+   - Check Hailo packages were copied from `/addons/` at startup (see logs)
    - Verify model compatibility with your hardware
+   - Ensure packages are placed in `/addons/` before installing the add-on
 
 3. **High Resource Usage**
    - Adjust `monitor_interval` to reduce polling
