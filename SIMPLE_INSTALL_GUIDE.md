@@ -8,18 +8,59 @@ This guide walks you through the easiest way to install the Hailo AI Terminal ad
 
 ## 📦 Step 1: Download Hailo Packages
 
+### 1.1 Visit Hailo Developer Zone
+
 1. **Visit** [Hailo Developer Zone](https://hailo.ai/developer-zone/)
 2. **Create** a free developer account (or login if you have one)
 3. **Navigate** to the Downloads section
-4. **Download** these 4 packages (ARM64 versions):
-   - ✅ `hailort_*_arm64.deb` - Hailo Runtime
-   - ✅ `hailo_ai_sw_suite_*_arm64.deb` - AI Software Suite
-   - ✅ `hailo_model_zoo_*_arm64.deb` - Model Zoo
-   - ✅ `hailo_dataflow_compiler_*_arm64.deb` - Dataflow Compiler
 
-5. **Save** all files to your computer (remember where you saved them!)
+### 1.2 Download These EXACT 4 Packages
 
-> **💡 Tip**: Keep all 4 files in the same folder on your computer for easy access.
+**⚠️ IMPORTANT: Download the ARM64 versions of these specific packages:**
+
+| # | Package Name | What to Look For | Example Filename |
+|---|--------------|-----------------|------------------|
+| 1️⃣ | **HailoRT Runtime** | File starting with `hailort_` and ending with `_arm64.deb` | `hailort_4.28.0_arm64.deb` |
+| 2️⃣ | **AI Software Suite** | File starting with `hailo_ai_sw_suite_` and ending with `_arm64.deb` | `hailo_ai_sw_suite_2024.04_arm64.deb` |
+| 3️⃣ | **Model Zoo** | File starting with `hailo_model_zoo_` and ending with `_arm64.deb` | `hailo_model_zoo_2.15.0_arm64.deb` |
+| 4️⃣ | **Dataflow Compiler** | File starting with `hailo_dataflow_compiler_` and ending with `_arm64.deb` | `hailo_dataflow_compiler_3.35.0_arm64.deb` |
+
+**Version Notes:**
+- ✅ **Use the LATEST versions** available on the site (versions shown above are examples)
+- ✅ **Minimum versions**: HailoRT 4.23.0+, AI Suite 2023.10+, Model Zoo 2.12.0+, Compiler 3.27.0+
+- ❌ **DO NOT download**: Files with `amd64`, `x86_64`, or `i386` in the name
+- ❌ **DO NOT download**: Files with `.whl` extension (Python wheels) - we only need `.deb` files
+
+### 1.3 How to Identify the Correct Files
+
+**Each filename MUST contain ALL of these:**
+- ✅ The package name at the start (e.g., `hailort_`)
+- ✅ A version number (e.g., `4.28.0`)
+- ✅ The text `arm64` (NOT amd64 or x86_64)
+- ✅ The extension `.deb`
+
+**Examples of CORRECT filenames:**
+```
+✅ hailort_4.28.0_arm64.deb
+✅ hailo_ai_sw_suite_2024.04_arm64.deb
+✅ hailo_model_zoo_2.15.0_arm64.deb
+✅ hailo_dataflow_compiler_3.35.0_arm64.deb
+```
+
+**Examples of INCORRECT filenames (do NOT download these):**
+```
+❌ hailort_4.28.0_amd64.deb          (wrong architecture)
+❌ hailort-4.28.0-cp310-linux.whl    (wrong format - .whl instead of .deb)
+❌ hailo_platform_2.10.0_arm64.deb   (wrong package - platform instead of ai_sw_suite)
+❌ hailort_3.20.0_arm64.deb          (too old - need 4.23.0+)
+```
+
+### 1.4 Save the Files
+
+5. **Save** all 4 `.deb` files to your computer (remember where you saved them!)
+6. **Keep them together** in the same folder for easy access
+
+> **💡 Tip**: Create a folder on your Desktop called `hailo-packages` and save all 4 files there.
 
 ---
 
@@ -74,14 +115,16 @@ Now you'll copy the Hailo packages to Home Assistant using Samba.
 
 > **💡 Important**: Place the `.deb` files directly in the `addons` folder, not in a subfolder!
 
-**Your files should look like this:**
+**Your files should look like this (version numbers may vary):**
 ```
 \\YOUR-HA-IP\addons\
-├── hailort_4.23.0_arm64.deb
-├── hailo_ai_sw_suite_2023.10_arm64.deb
-├── hailo_model_zoo_2.12.0_arm64.deb
-└── hailo_dataflow_compiler_3.27.0_arm64.deb
+├── hailort_4.28.0_arm64.deb
+├── hailo_ai_sw_suite_2024.04_arm64.deb
+├── hailo_model_zoo_2.15.0_arm64.deb
+└── hailo_dataflow_compiler_3.35.0_arm64.deb
 ```
+
+> **📝 Note**: Your version numbers might be different - that's OK! Just make sure each file has `arm64` and `.deb` in the name.
 
 ---
 

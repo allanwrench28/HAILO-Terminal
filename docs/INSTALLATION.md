@@ -27,20 +27,34 @@ This guide walks you through installing and configuring the Hailo AI Terminal ad
 > **📖 Need detailed help?** See the [Complete Hailo Package Setup Guide](HAILO_PACKAGE_SETUP.md) for step-by-step instructions with screenshots and troubleshooting.
 
 ### 1.2 Download Required Packages
-Navigate to the **Downloads** section and obtain these packages:
 
-**Required Files:**
-```
-hailort_4.23.0_arm64.deb
-hailo_ai_sw_suite_2023.10_arm64.deb  
-hailo_model_zoo_2.12.0_arm64.deb
-hailo_dataflow_compiler_3.27.0_arm64.deb
-```
+Navigate to the **Downloads** section and download these **4 EXACT packages**:
+
+**Required Files (ARM64 versions only!):**
+
+| Package | What to Look For | Example Filename |
+|---------|-----------------|------------------|
+| **HailoRT** | `hailort_` + version + `_arm64.deb` | `hailort_4.28.0_arm64.deb` |
+| **AI Software Suite** | `hailo_ai_sw_suite_` + version + `_arm64.deb` | `hailo_ai_sw_suite_2024.04_arm64.deb` |
+| **Model Zoo** | `hailo_model_zoo_` + version + `_arm64.deb` | `hailo_model_zoo_2.15.0_arm64.deb` |
+| **Dataflow Compiler** | `hailo_dataflow_compiler_` + version + `_arm64.deb` | `hailo_dataflow_compiler_3.35.0_arm64.deb` |
+
+**Version Requirements:**
+- ✅ **Minimum**: HailoRT 4.23.0+, AI Suite 2023.10+, Model Zoo 2.12.0+, Compiler 3.27.0+
+- ✅ **Recommended**: Use the LATEST versions available on the site
+- ❌ **Avoid**: Versions older than the minimums listed above
+
+**Critical Rules:**
+- ✅ Each file MUST have `arm64` in the filename (NOT `amd64` or `x86_64`)
+- ✅ Each file MUST have `.deb` extension (NOT `.whl`)
+- ✅ Download ALL 4 packages - they work together
+- ❌ Do NOT download Python wheel files (`.whl`) - we only need `.deb` files
 
 **Important Notes:**
-- Package versions may vary - download the latest compatible versions
-- Ensure you select **ARM64** architecture packages
-- Save packages to your local computer for transfer
+- Package versions may vary - **always download the latest available versions**
+- Ensure you select **ARM64** architecture packages (look for `arm64` in filename)
+- Save all packages to your local computer for transfer
+- Keep all 4 files in the same folder for easy access
 
 ### 1.3 Prepare Package Directory
 Create the required directory structure on your Home Assistant system:

@@ -20,7 +20,11 @@ This add-on gives you a smart AI assistant that can see ALL your devices and hel
 
 ### Quick Overview:
 
-**Step 1**: Download Hailo packages from [Hailo Developer Zone](https://hailo.ai/developer-zone/)
+**Step 1**: Download these 4 specific Hailo packages from [Hailo Developer Zone](https://hailo.ai/developer-zone/)
+- `hailort_*_arm64.deb` (Runtime)
+- `hailo_ai_sw_suite_*_arm64.deb` (AI Suite)  
+- `hailo_model_zoo_*_arm64.deb` (Model Zoo)
+- `hailo_dataflow_compiler_*_arm64.deb` (Compiler)
 
 **Step 2**: Install Samba add-on (if you don't have it)
 
