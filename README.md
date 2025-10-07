@@ -43,7 +43,10 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/allanwrench28/HAILO-Te
    - **URL**: Your Home Assistant address (like `http://192.168.1.100:8123`)
    - **Token**: [How to get a token →](docs/INSTALLATION.md#getting-your-token)
 
-**📦 Note about AI Packages**: If you want to use Hailo hardware, you'll need to add the Hailo packages to the add-on directory. The add-on works great with OpenAI, Anthropic, or Ollama without any additional packages! [Package setup guide →](docs/HAILO_PACKAGE_SETUP.md)
+**📦 Note about AI Packages**: If you want to use Hailo hardware, you'll need to add the Hailo packages to the add-on directory. The add-on works great with OpenAI, Anthropic, or Ollama without any additional packages! 
+
+- **📱 Mobile users**: [Easy mobile package installation →](MOBILE_PACKAGE_INSTALL.md)
+- **💻 Desktop users**: [Package setup guide →](docs/HAILO_PACKAGE_SETUP.md)
 
 ### Step 5: Start Using It!
 1. Open the add-on
