@@ -248,6 +248,7 @@ hailo_packages/*
 !hailo_packages/.gitkeep
 !hailo_packages/README.md
 *.deb
+*.whl
 
 # Add-on Specific
 config/
