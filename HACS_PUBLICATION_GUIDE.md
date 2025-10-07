@@ -1,65 +1,53 @@
-# 🏪 Publishing HAILO-Terminal to HACS Community Store
+# 📦 Publishing HAILO-Terminal Add-on Repository
 
-## 📋 **Current HACS Readiness Status**
+## ⚠️ **Important: HACS Does Not Support Add-ons**
 
-✅ **Your repository is already HACS-ready!** Here's what you have:
+**HACS (Home Assistant Community Store) only supports:**
+- ✅ Integrations (custom components)
+- ✅ Themes
+- ✅ Plugins (Lovelace cards)
+- ✅ Python scripts
 
-- ✅ `hacs.json` - HACS metadata configured
-- ✅ `repository.json` - Repository configuration  
+**HACS does NOT support:**
+- ❌ Add-ons (like this repository)
+
+This is a **Home Assistant Add-on**, which must be distributed differently than HACS integrations.
+
+## 📋 **Current Repository Status**
+
+✅ **Your repository is properly configured as an add-on repository!** Here's what you have:
+
+- ✅ `repository.json` - Add-on repository metadata
+- ✅ `repository.yaml` - Add-on repository configuration  
 - ✅ Proper add-on structure in `addons/hailo-terminal/`
 - ✅ Professional README with installation instructions
 - ✅ MIT License for community use
 - ✅ Clear versioning with CHANGELOG.md
 - ✅ Complete documentation suite
 
-## 🚀 **Two Ways to Get Users Access**
+## 🚀 **How Users Install Your Add-on**
 
-### **Option 1: Direct User Installation (Available Now)**
-Users can add your repository directly to HACS:
+### **Add-on Repository Installation (Available Now)**
+Users add your repository directly to Home Assistant:
 
-1. **HACS → Integrations → ⋮ (three dots) → Custom repositories**
-2. **Repository**: `https://github.com/allanwrench28/HAILO-Terminal`
-3. **Category**: Integration
-4. **Add → Install**
+1. **Settings → Add-ons → Add-on Store**
+2. **⋮ (three dots menu) → Repositories**
+3. **Add repository**: `https://github.com/allanwrench28/HAILO-Terminal`
+4. **Close → Refresh**
+5. **Find "Hailo AI Terminal" → Install**
 
-### **Option 2: Official HACS Store Submission (Community Review)**
+## 📝 **Add-on Distribution Best Practices**
 
-## 📝 **HACS Store Submission Process**
-
-### **Step 1: Repository Requirements Check**
+### **Step 1: Repository Requirements**
 ✅ **Already Complete for Your Repo:**
 - Repository is public on GitHub
 - Has proper license (MIT)
 - Contains working Home Assistant add-on
 - Professional documentation
-- Follows HACS requirements
+- Follows Home Assistant add-on specifications
 
-### **Step 2: Submit to HACS**
-
-**Submit here**: https://github.com/hacs/default/issues/new/choose
-
-**Choose**: "Add to default" template
-
-**Fill out the submission form:**
-
-```markdown
-Repository: https://github.com/allanwrench28/HAILO-Terminal
-Category: Add-on
-Description: AI-powered Home Assistant terminal with Hailo integration that provides smart automation recommendations based on actual discovered entities.
-
-Additional information:
-- Supports multiple AI backends (Hailo, OpenAI, Anthropic, Ollama)  
-- Enhanced entity discovery system
-- Automated PowerShell installation
-- Professional documentation suite
-- Tested and production-ready
-```
-
-### **Step 3: HACS Review Process**
-- **Review time**: Usually 1-2 weeks
-- **Requirements check**: HACS team validates your repository
-- **Community feedback**: Other developers may provide feedback
-- **Approval**: Once approved, appears in HACS store automatically
+### **Step 2: No Central Submission Required**
+Unlike HACS integrations, add-ons don't have a central submission process. Users add your repository URL directly.
 
 ## 🎯 **Pre-Submission Improvements (Optional)**
 

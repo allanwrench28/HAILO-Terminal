@@ -1,5 +1,8 @@
 # 🤖 Hailo AI Terminal for Home Assistant
 
+> **📦 This is a Home Assistant Add-on** (not a HACS integration)
+> Add-ons are installed through Home Assistant's Add-on Store, not HACS.
+
 **Turn your Home Assistant into an AI-powered automation genius!** 
 
 This add-on gives you a smart AI assistant that can see ALL your devices and help you create automations using plain English.
@@ -13,45 +16,41 @@ This add-on gives you a smart AI assistant that can see ALL your devices and hel
 
 ## � Super Simple Installation
 
-### Step 1: Do you have Home Assistant?
-**Need Home Assistant?** → https://www.home-assistant.io/installation/
+**Want the easiest installation?** → **[📖 Simple 5-Step Installation Guide](SIMPLE_INSTALL_GUIDE.md)**
 
-### Step 2: Do you have HACS installed?
-**Need HACS?** → https://hacs.xyz/docs/setup/download
+### Quick Overview:
 
-### Step 3: Install This Add-on
+**Step 1**: Download these 4 specific Hailo packages from [Hailo Developer Zone](https://hailo.ai/developer-zone/)
+- `hailort_*_arm64.deb` (Runtime)
+- `hailo_ai_sw_suite_*_arm64.deb` (AI Suite)  
+- `hailo_model_zoo_*_arm64.deb` (Model Zoo)
+- `hailo_dataflow_compiler_*_arm64.deb` (Compiler)
 
-**Easiest Method (HACS - Recommended):**
-1. Open HACS in Home Assistant
-2. Click the three dots (⋮) → Custom repositories  
-3. Paste: `https://github.com/allanwrench28/HAILO-Terminal`
-4. Category: Integration
-5. Click Add → Install
+**Step 2**: Install Samba add-on (if you don't have it)
 
-**Alternative Method (Windows PowerShell):**
-1. Press `Windows + R`
-2. Type `powershell` and press Enter
-3. Copy and paste this, then press Enter:
+**Step 3**: Use Samba to copy Hailo packages to the `/addons/` folder
 
-```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/allanwrench28/HAILO-Terminal/main/install_clean.ps1" -OutFile "install_hailo.ps1"; .\install_hailo.ps1
+**Step 4**: Add this repository to Home Assistant Add-on Store:
+```
+https://github.com/allanwrench28/HAILO-Terminal
 ```
 
-### Step 4: Configure
-1. Go to Settings → Add-ons → Hailo AI Terminal
-2. Add your Home Assistant details:
-   - **URL**: Your Home Assistant address (like `http://192.168.1.100:8123`)
-   - **Token**: [How to get a token →](docs/INSTALLATION.md#getting-your-token)
+**Step 5**: Install the add-on - it automatically finds and installs your Hailo packages!
 
-**📦 Note about AI Packages**: If you want to use Hailo hardware, you'll need to add the Hailo packages to the add-on directory. The add-on works great with OpenAI, Anthropic, or Ollama without any additional packages! 
+> **✨ Magic**: The add-on automatically detects Hailo packages in the `/addons/` folder and installs them for you. No command line needed!
 
-- **📱 Mobile users**: [Easy mobile package installation →](MOBILE_PACKAGE_INSTALL.md)
-- **💻 Desktop users**: [Package setup guide →](docs/HAILO_PACKAGE_SETUP.md)
+**📖 [Click here for detailed step-by-step instructions](SIMPLE_INSTALL_GUIDE.md)**
 
-### Step 5: Start Using It!
-1. Open the add-on
-2. Type: *"Turn on living room lights when someone walks in"*
-3. Watch the magic happen! ✨
+---
+
+### Alternative: Without Hailo Hardware
+
+Don't have Hailo hardware? No problem! The add-on works great with:
+- **OpenAI** (ChatGPT / GPT-4)
+- **Anthropic** (Claude)
+- **Ollama** (Local models)
+
+Just skip the Hailo package steps and configure your preferred AI backend in the add-on settings.
 
 ## 🎯 What You Can Ask It
 

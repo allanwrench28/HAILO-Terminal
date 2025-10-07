@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjustable AI context length
 - Comprehensive logging system
 - Docker containerization with proper privilege management
-- HACS (Home Assistant Community Store) integration
+- Add-on repository configuration for easy installation
 - Automated CI/CD pipeline with multi-architecture builds
 - Comprehensive documentation and installation guides
 
@@ -85,7 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 4GB+ RAM (recommended)
 - 10GB+ available storage
 - Home Assistant 2023.3.0+
-- HACS for easy installation
+- Home Assistant OS or Supervised (for add-on support)
 
 ### Documentation
 - Comprehensive installation guide
@@ -119,7 +119,7 @@ This initial release establishes the Hailo AI Terminal as a powerful AI assistan
 - Optimized resource usage and power efficiency
 
 **🔧 Easy Installation**
-- One-click installation through HACS
+- Simple installation through Home Assistant Add-on Store
 - Automatic package management
 - Comprehensive configuration options
 

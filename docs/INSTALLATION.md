@@ -12,7 +12,7 @@ This guide walks you through installing and configuring the Hailo AI Terminal ad
 
 ### Software Requirements  
 - ✅ **Home Assistant 2023.3.0+**
-- ✅ **HACS (Home Assistant Community Store)**
+- ✅ **Home Assistant OS** or **Home Assistant Supervised** (for add-on support)
 - ✅ **Hailo Developer Account** (for package downloads)
 
 ## 🔑 Step 1: Obtain Hailo Packages
@@ -27,20 +27,34 @@ This guide walks you through installing and configuring the Hailo AI Terminal ad
 > **📖 Need detailed help?** See the [Complete Hailo Package Setup Guide](HAILO_PACKAGE_SETUP.md) for step-by-step instructions with screenshots and troubleshooting.
 
 ### 1.2 Download Required Packages
-Navigate to the **Downloads** section and obtain these packages:
 
-**Required Files:**
-```
-hailort_4.23.0_arm64.deb
-hailo_ai_sw_suite_2023.10_arm64.deb  
-hailo_model_zoo_2.12.0_arm64.deb
-hailo_dataflow_compiler_3.27.0_arm64.deb
-```
+Navigate to the **Downloads** section and download these **4 EXACT packages**:
+
+**Required Files (ARM64 versions only!):**
+
+| Package | What to Look For | Example Filename |
+|---------|-----------------|------------------|
+| **HailoRT** | `hailort_` + version + `_arm64.deb` | `hailort_4.28.0_arm64.deb` |
+| **AI Software Suite** | `hailo_ai_sw_suite_` + version + `_arm64.deb` | `hailo_ai_sw_suite_2024.04_arm64.deb` |
+| **Model Zoo** | `hailo_model_zoo_` + version + `_arm64.deb` | `hailo_model_zoo_2.15.0_arm64.deb` |
+| **Dataflow Compiler** | `hailo_dataflow_compiler_` + version + `_arm64.deb` | `hailo_dataflow_compiler_3.35.0_arm64.deb` |
+
+**Version Requirements:**
+- ✅ **Minimum**: HailoRT 4.23.0+, AI Suite 2023.10+, Model Zoo 2.12.0+, Compiler 3.27.0+
+- ✅ **Recommended**: Use the LATEST versions available on the site
+- ❌ **Avoid**: Versions older than the minimums listed above
+
+**Critical Rules:**
+- ✅ Each file MUST have `arm64` in the filename (NOT `amd64` or `x86_64`)
+- ✅ Each file MUST have `.deb` extension (NOT `.whl`)
+- ✅ Download ALL 4 packages - they work together
+- ❌ Do NOT download Python wheel files (`.whl`) - we only need `.deb` files
 
 **Important Notes:**
-- Package versions may vary - download the latest compatible versions
-- Ensure you select **ARM64** architecture packages
-- Save packages to your local computer for transfer
+- Package versions may vary - **always download the latest available versions**
+- Ensure you select **ARM64** architecture packages (look for `arm64` in filename)
+- Save all packages to your local computer for transfer
+- Keep all 4 files in the same folder for easy access
 
 ### 1.3 Prepare Package Directory
 Create the required directory structure on your Home Assistant system:
@@ -74,29 +88,33 @@ scp *.deb root@your-ha-ip:/share/hailo/packages/
 2. Access `\\your-ha-ip\share\hailo\packages\`
 3. Copy files directly via network share
 
-## 🏪 Step 2: Install via HACS
+## 🏪 Step 2: Add the Add-on Repository
 
-### 2.1 Add Custom Repository
-1. Open **HACS** in Home Assistant
-2. Click **⋮** (three dots menu) → **Custom repositories**
-3. Add repository: `https://github.com/your-username/hailo-terminal-addon`
-4. Category: **Add-on**
-5. Click **Add**
+**Important**: This is a Home Assistant **Add-on**, not a HACS integration. HACS does not support add-ons - they must be installed through Home Assistant's Add-on Store.
 
-### 2.2 Install the Add-on Repository
-1. Search for **"Hailo AI Terminal"** in HACS
-2. Click the repository
-3. Click **Download**
-4. Wait for download to complete
-5. **Restart Home Assistant**
+### 2.1 Add Custom Repository to Home Assistant
+1. Open **Home Assistant**
+2. Navigate to **Settings** → **Add-ons**
+3. Click **Add-on Store** (bottom right)
+4. Click the **⋮** (three dots menu) in the top right corner
+5. Select **Repositories**
+6. Add this repository URL:
+   ```
+   https://github.com/allanwrench28/HAILO-Terminal
+   ```
+7. Click **Add** → **Close**
+
+### 2.2 Install the Add-on
+1. **Refresh** the Add-on Store page (if necessary)
+2. Scroll down to find **"Hailo AI Terminal"** in the list
+3. Click on the add-on
+4. Click **Install**
+5. Wait for installation to complete (this may take several minutes)
 
 ## ⚙️ Step 3: Configure the Add-on
 
-### 3.1 Access Add-on Store
-1. Navigate to **Settings** → **Add-ons**
-2. Click **Add-on Store** tab
-3. Find **"Hailo AI Terminal"**
-4. Click **Install**
+### 3.1 Initial Configuration
+After installation completes:
 
 ### 3.2 Choose Your AI Backend
 

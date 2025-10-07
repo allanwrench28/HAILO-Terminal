@@ -1,6 +1,8 @@
-# 🚀 HACS Distribution Checklist
+# 🚀 Home Assistant Add-on Distribution Guide
 
-This checklist ensures your Hailo AI Terminal Add-on is ready for HACS distribution.
+**Important**: HACS (Home Assistant Community Store) does NOT support add-ons. HACS only supports integrations, themes, plugins, and Python scripts. This guide covers distributing Home Assistant add-ons through add-on repositories.
+
+This guide ensures your Hailo AI Terminal Add-on is ready for distribution as a Home Assistant Add-on Repository.
 
 ## ✅ Pre-Distribution Checklist
 
@@ -11,15 +13,14 @@ This checklist ensures your Hailo AI Terminal Add-on is ready for HACS distribut
 - [x] **CHANGELOG.md** following Keep a Changelog format
 - [x] **CONTRIBUTING.md** with contribution guidelines
 - [x] **.gitignore** excluding sensitive/build files
-- [x] **repository.yaml** for HACS configuration
-- [x] **repository.json** for HACS metadata
+- [x] **repository.yaml** for add-on repository configuration
+- [x] **repository.json** for add-on repository metadata
 
-### HACS Compatibility
-- [x] **HACS workflow** (`.github/workflows/ci.yml`) configured
-- [x] **HACS validation** action included
+### Add-on Repository Compatibility
 - [x] **Multi-architecture builds** configured
 - [x] **Proper addon structure** under `addons/` directory
 - [x] **Version tags** follow semantic versioning
+- [x] **repository.yaml** configured per Home Assistant add-on specs
 
 ### Add-on Configuration
 - [x] **config.yaml** with proper schema and options
@@ -87,34 +88,39 @@ Ensure consistent versioning across:
 3. **Create** GitHub release from tag
 4. **Add** release notes from CHANGELOG.md
 
-### 3. HACS Submission
+### 3. Distribution and User Installation
+
+**Note**: Unlike HACS integrations, add-ons do not require submission to any central repository. Users add your repository URL directly to their Home Assistant installation.
 
 #### Validation Tests
-Run these locally before submission:
+Run these locally before release:
 ```bash
-# HACS validation (if you have HACS locally)
-hacs validate --category addon --repository .
-
 # Docker build test
 docker buildx build --platform linux/amd64,linux/arm64 -t test-addon .
 
 # Configuration validation
 yamllint addons/hailo-terminal/config.yaml
+
+# Test installation
+# Add the repository to a test Home Assistant instance
 ```
 
-#### Submit to HACS
-1. **Fork** [hacs/default](https://github.com/hacs/default)
-2. **Add** your repository to `addons.json`:
-   ```json
-   {
-     "name": "your-username/hailo-terminal-addon",
-     "description": "AI-powered terminal and resource monitor for Home Assistant with Hailo hardware acceleration"
-   }
-   ```
-3. **Create** pull request to HACS
-4. **Wait** for approval (typically 1-2 weeks)
+#### How Users Install Your Add-on
+Users will follow these steps:
+1. Navigate to **Settings** → **Add-ons** → **Add-on Store**
+2. Click **⋮** menu → **Repositories**
+3. Add your repository URL: `https://github.com/allanwrench28/HAILO-Terminal`
+4. Find and install **"Hailo AI Terminal"** from the store
 
-### 4. Post-Submission Tasks
+#### Community Promotion
+To make your add-on discoverable:
+1. **Post** on Home Assistant Community Forums
+2. **Share** on Reddit r/homeassistant
+3. **Create** blog posts or tutorials
+4. **Update** the README with clear installation instructions
+5. **Add** screenshots and demos
+
+### 4. Post-Release Tasks
 
 #### Monitor and Respond
 - **Watch** HACS PR for feedback

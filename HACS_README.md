@@ -3,7 +3,6 @@
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
 [![License][license-shield]](LICENSE)
-[![hacs][hacsbadge]][hacs]
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports armhf Architecture][armhf-shield]
@@ -47,17 +46,25 @@ This add-on requires Hailo runtime packages that must be downloaded separately f
 /share/hailo-terminal-addon/scripts/verify-hailo-packages.sh
 ```
 
-### Step 1: Add Repository to HACS
+### Step 1: Add Add-on Repository to Home Assistant
 
-1. Open **HACS** in your Home Assistant instance
-2. Go to **Integrations** → **⋮** (menu) → **Custom repositories**
-3. Add this repository URL: `https://github.com/your-username/hailo-terminal-addon`
-4. Select **Category**: `Add-on`
-5. Click **Add**
+**Important**: This is a Home Assistant **Add-on**, not a HACS integration. HACS does not support add-ons.
+
+1. Open **Home Assistant**
+2. Navigate to **Settings** → **Add-ons**
+3. Click **Add-on Store** (bottom right)
+4. Click the **⋮** (three dots menu) in the top right
+5. Select **Repositories**
+6. Add this repository URL:
+   ```
+   https://github.com/allanwrench28/HAILO-Terminal
+   ```
+7. Click **Add** → **Close**
 
 ### Step 2: Install the Add-on
 
-1. In HACS, find **"Hailo AI Terminal Add-on Repository"**
+1. **Refresh** the Add-on Store page
+2. Find **"Hailo AI Terminal"** in the list
 2. Click **Download**
 3. Restart Home Assistant
 4. Go to **Settings** → **Add-ons** → **Add-on Store**

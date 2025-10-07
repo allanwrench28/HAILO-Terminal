@@ -1,10 +1,7 @@
-# Home Assistant Community Store (HACS) Repository Configuration
-# https://hacs.xyz/docs/publish/start
+# Home Assistant Add-on Repository Configuration
+# https://developers.home-assistant.io/docs/add-ons/repository
 
 name: "Hailo AI Terminal Add-on Repository"
 description: "AI-powered terminal and resource monitor for Home Assistant with Hailo hardware acceleration"
-render_readme: true
-zip_release: false
-filename: false
-country: []
-homeassistant: "2023.3.0"
+url: "https://github.com/allanwrench28/HAILO-Terminal"
+maintainer: "WrenchWorks3D"
