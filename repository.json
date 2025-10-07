@@ -1,6 +1,6 @@
 {
   "name": "Hailo AI Terminal Add-on Repository",
-  "url": "https://github.com/your-username/hailo-terminal-addon",
-  "maintainer": "Your Name <your.email@example.com>",
-  "description": "AI-powered terminal and resource monitor for Home Assistant with Hailo hardware acceleration"
+  "url": "https://github.com/allanwrench28/HAILO-Terminal",
+  "maintainer": "WrenchWorks3D <145695475+allanwrench28@users.noreply.github.com>",
+  "description": "AI-powered Home Assistant terminal with Hailo integration and smart automation recommendations based on discovered entities"
 }
