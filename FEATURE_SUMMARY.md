@@ -73,7 +73,7 @@ The **Hailo AI Terminal** is a sophisticated Home Assistant add-on that provides
 
 #### Docker Integration
 - **Multi-architecture Support**: ARM64 and AMD64 builds
-- **Home Assistant Add-on**: Full HACS compatibility
+- **Home Assistant Add-on**: Proper add-on repository configuration
 - **Resource Constraints**: Configurable memory and CPU limits
 - **Health Monitoring**: Built-in health checks and logging
 
@@ -128,7 +128,7 @@ The **Hailo AI Terminal** is a sophisticated Home Assistant add-on that provides
 - ✅ Documentation and examples
 
 ### Installation Methods
-1. **HACS Integration**: Direct installation from custom repository
+1. **Add-on Repository**: Direct installation through Home Assistant Add-on Store
 2. **Manual Installation**: Copy add-on files to Home Assistant
 3. **Docker Compose**: Standalone deployment option
 
@@ -174,7 +174,7 @@ The **Hailo AI Terminal** is a sophisticated Home Assistant add-on that provides
 3. **Modern UI**: Professional interface matching industry standards
 4. **Intelligent Assistance**: AI-powered automation recommendations
 5. **Robust Testing**: Comprehensive test suite with 100% pass rate
-6. **HACS Compatible**: Ready for community distribution
+6. **Add-on Repository**: Ready for community distribution via Home Assistant
 7. **Multi-Platform**: ARM64 and AMD64 Docker support
 8. **Extensible Architecture**: Easy to add new features and templates
 

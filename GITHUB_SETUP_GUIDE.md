@@ -11,7 +11,7 @@
 5. **Fill in repository details:**
    - Repository name: `HAILO-Terminal`
    - Description: `AI-powered terminal assistant for Home Assistant with Hailo hardware acceleration support`
-   - Visibility: **Public** (for HACS compatibility)
+   - Visibility: **Public** (for community access)
    - ✅ **Check "Add a README file"**
    - ✅ **Add .gitignore:** Choose "Python"
    - ✅ **Choose a license:** MIT License
@@ -103,7 +103,6 @@ INSTALLATION_INSTRUCTIONS.txt
 
 [![GitHub release](https://img.shields.io/github/release/YOUR_USERNAME/HAILO-Terminal.svg)](https://github.com/YOUR_USERNAME/HAILO-Terminal/releases)
 [![License](https://img.shields.io/github/license/YOUR_USERNAME/HAILO-Terminal.svg)](LICENSE)
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 
 AI-powered terminal assistant for Home Assistant with Hailo hardware acceleration support.
 
@@ -165,7 +164,7 @@ git commit -m "Initial release: Hailo AI Terminal v1.0
 - Real-time system monitoring
 - YAML automation generation with validation
 - Automated PowerShell installer
-- HACS-ready repository structure
+- Add-on repository structure for easy installation
 - Comprehensive documentation
 
 🚀 Ready for production deployment!"
@@ -195,7 +194,7 @@ Your repository will be at: `https://github.com/YOUR_USERNAME/HAILO-Terminal`
 ### Next Steps:
 1. **Update badges** in README.md with your actual username
 2. **Create first release** (Releases → Create a new release → v1.0.0)
-3. **Test HACS integration** (when ready for distribution)
+3. **Test add-on installation** through Home Assistant Add-on Store
 4. **Share with community** 🚀
 
 ## 📋 File Structure
@@ -205,7 +204,8 @@ HAILO-Terminal/
 ├── README.md                          # Main repository documentation
 ├── LICENSE                            # MIT License
 ├── .gitignore                         # Git ignore patterns
-├── hacs.json                          # HACS metadata
+├── repository.yaml                    # Add-on repository config
+├── repository.json                    # Add-on repository metadata
 ├── install_clean.ps1                  # Automated installer
 ├── INSTALLATION_GUIDE.md              # Step-by-step setup
 ├── SAMBA_UPLOAD_GUIDE.md              # File sharing guide
