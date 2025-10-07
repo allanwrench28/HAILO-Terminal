@@ -50,6 +50,73 @@ if [[ -n "${CUSTOM_API_URL}" ]]; then
     bashio::log.info "Custom API URL configured: ${CUSTOM_API_URL}"
 fi
 
+# ==============================================================================
+# AUTO-COPY HAILO PACKAGES FROM ADDONS FOLDER
+# ==============================================================================
+bashio::log.info "Checking for Hailo packages..."
+
+# Source locations where users might place packages
+ADDON_CONFIG_DIR="/config/addons_config/hailo_ai_terminal"
+ADDONS_DIR="/addons"
+PACKAGE_DEST="/home/hailo_terminal/hailo_packages"
+
+# Create destination directory if it doesn't exist
+mkdir -p "${PACKAGE_DEST}"
+
+# Function to copy packages from a source directory
+copy_packages_from() {
+    local source_dir="$1"
+    local copied=0
+    
+    if [[ -d "$source_dir" ]]; then
+        bashio::log.info "Checking ${source_dir} for Hailo packages..."
+        
+        # Copy .deb files
+        if ls "${source_dir}"/*.deb 1> /dev/null 2>&1; then
+            bashio::log.info "Found .deb packages, copying..."
+            cp "${source_dir}"/*.deb "${PACKAGE_DEST}/" 2>/dev/null && copied=1
+        fi
+        
+        # Copy .whl files
+        if ls "${source_dir}"/*.whl 1> /dev/null 2>&1; then
+            bashio::log.info "Found .whl packages, copying..."
+            cp "${source_dir}"/*.whl "${PACKAGE_DEST}/" 2>/dev/null && copied=1
+        fi
+    fi
+    
+    return $copied
+}
+
+# Try to find and copy packages from various locations
+if copy_packages_from "$ADDON_CONFIG_DIR"; then
+    bashio::log.success "Hailo packages copied from addon config directory!"
+elif copy_packages_from "$ADDONS_DIR"; then
+    bashio::log.success "Hailo packages copied from addons directory!"
+elif copy_packages_from "/share/hailo/packages"; then
+    bashio::log.success "Hailo packages copied from /share/hailo/packages!"
+else
+    bashio::log.warning "No Hailo packages found in standard locations"
+    bashio::log.warning "Add-on will run in CPU-only mode without Hailo acceleration"
+    bashio::log.info "To enable Hailo: Place packages in /addons/ folder before installing"
+fi
+
+# Install packages if found
+if ls "${PACKAGE_DEST}"/*.deb 1> /dev/null 2>&1; then
+    bashio::log.info "Installing Hailo .deb packages..."
+    for deb_file in "${PACKAGE_DEST}"/*.deb; do
+        bashio::log.info "Installing: $(basename "$deb_file")"
+        dpkg --unpack "$deb_file" || true
+    done
+fi
+
+if ls "${PACKAGE_DEST}"/*.whl 1> /dev/null 2>&1; then
+    bashio::log.info "Installing Hailo Python packages..."
+    for whl_file in "${PACKAGE_DEST}"/*.whl; do
+        bashio::log.info "Installing: $(basename "$whl_file")"
+        python3 -m pip install "$whl_file" || true
+    done
+fi
+
 # Create model directory if it doesn't exist
 if [[ ! -d "${MODEL_PATH}" ]]; then
     bashio::log.info "Creating model directory: ${MODEL_PATH}"
