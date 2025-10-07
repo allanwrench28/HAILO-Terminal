@@ -1,218 +1,130 @@
-# Home Assistant Hailo AI Add-on Development Workspace
+# 🤖 Hailo AI Terminal for Home Assistant
 
-Welcome to your complete development environment for building custom Home Assistant add-ons with Hailo AI integration!
+**Turn your Home Assistant into an AI-powered automation genius!** 
 
-## 🚀 Quick Start
+This add-on gives you a smart AI assistant that can see ALL your devices and help you create automations using plain English.
 
-### 🤖 Understanding AI Backends
-**New to AI hardware?** The Hailo-8 is an AI accelerator that works with multiple AI backends for maximum flexibility.
+## ✨ What Does It Do?
 
-📖 **[AI Backends Explained Simply →](docs/AI_BACKEND_EXPLAINED.md)** - Perfect for understanding how it all works!
+- � **AI sees your actual devices** - No more guessing entity names!
+- 💬 **Talk to it normally** - "Turn on lights when motion detected"
+- 🎯 **Smart suggestions** - Only shows automations that work with your setup
+- 🏠 **Works with everything** - Lights, sensors, thermostats, cameras, etc.
 
-### Generate Your First Add-on
-```bash
-# Make scripts executable
-chmod +x scripts/*.sh
+## � Super Simple Installation
 
-# Generate a new add-on
-./scripts/generate-addon.sh my-hailo-detector
+### Step 1: Do you have Home Assistant?
+**Need Home Assistant?** → https://www.home-assistant.io/installation/
 
-# Or use the dev helper
-./scripts/dev-helper.sh generate my-hailo-detector
+### Step 2: Do you have HACS installed?
+**Need HACS?** → https://hacs.xyz/docs/setup/download
+
+### Step 3: Install This Add-on
+
+**Windows Users:**
+1. Press `Windows + R`
+2. Type `powershell` and press Enter
+3. Copy and paste this, then press Enter:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/allanwrench28/HAILO-Terminal/main/install_clean.ps1" -OutFile "install_hailo.ps1"; .\install_hailo.ps1
 ```
 
-### Build and Test
-```bash
-# Build the add-on
-./scripts/build-addon.sh ./addons/my-hailo-detector
+**Alternative Method (Any Platform):**
+1. Open HACS in Home Assistant
+2. Click the three dots (⋮) → Custom repositories  
+3. Paste: `https://github.com/allanwrench28/HAILO-Terminal`
+4. Category: Integration
+5. Click Add → Install
 
-# Validate configuration
-./scripts/dev-helper.sh validate ./addons/my-hailo-detector
+### Step 4: Configure
+1. Go to Settings → Add-ons → Hailo AI Terminal
+2. Add your Home Assistant details:
+   - **URL**: Your Home Assistant address (like `http://192.168.1.100:8123`)
+   - **Token**: [How to get a token →](docs/INSTALLATION.md#getting-your-token)
 
-# Verify Hailo packages
-./scripts/verify-hailo-packages.sh
-```
+### Step 5: Start Using It!
+1. Open the add-on
+2. Type: *"Turn on living room lights when someone walks in"*
+3. Watch the magic happen! ✨
 
-## 📁 Workspace Structure
+## 🎯 What You Can Ask It
 
-```
-├── addons/                 # Your custom add-ons
-├── templates/             # Add-on templates
-│   └── hailo-base-addon/  # Base Hailo add-on template
-├── scripts/               # Development tools
-│   ├── generate-addon.sh  # Generate new add-on
-│   ├── build-addon.sh     # Build add-on
-│   └── dev-helper.sh      # Development helper
-├── docs/                  # Documentation
-└── .github/              # Workspace configuration
-```
+- *"Turn on lights when motion detected"*
+- *"Schedule my thermostat for energy savings"*  
+- *"Create a security system for nighttime"*
+- *"Turn everything off when we leave"*
+- *"Dim lights gradually at bedtime"*
 
-## 🛠️ Development Tools
+The AI will suggest automations using your **actual devices** - no more guessing!
 
-### Generate Add-on
-Create a new add-on from the Hailo template:
-```bash
-./scripts/generate-addon.sh [OPTIONS] ADDON_NAME
+## 🆘 Need Help?
 
-Options:
-  -d, --description DESC  Add-on description
-  -v, --version VERSION   Initial version (default: 1.0.0)
-  -a, --author AUTHOR     Add-on author
-  --url URL              Repository URL
-```
+**Something not working?** → [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
 
-### Build Add-on
-Build your add-on for Home Assistant:
-```bash
-./scripts/build-addon.sh [OPTIONS] ADDON_PATH
+**Want different AI backends?** → [AI Setup Guide](docs/AI_BACKEND_EXPLAINED.md)
 
-Options:
-  -a, --arch ARCH         Target architecture (default: aarch64)
-  -v, --version VERSION   Add-on version
-  -n, --name NAME         Add-on name
-  --no-cache             Build without cache
-```
+**Manual installation?** → [Detailed Instructions](INSTALLATION_GUIDE.md)
 
-### Development Helper
-All-in-one development tool:
-```bash
-./scripts/dev-helper.sh COMMAND [OPTIONS]
+## ⚡ What Makes This Special?
 
-Commands:
-  generate ADDON_NAME     Generate new add-on
-  build ADDON_PATH        Build an add-on
-  list                    List all add-ons
-  clean                   Clean build artifacts
-  validate ADDON_PATH     Validate add-on configuration
-```
+### 🔍 **Smart Entity Discovery**
+- Automatically finds ALL your Home Assistant devices
+- No more copying and pasting entity names
+- AI knows exactly what you have
 
-## 🧠 Hailo Integration
+### 🧠 **Multiple AI Options**
+- **Hailo AI** (if you have the hardware)
+- **OpenAI** (ChatGPT/GPT-4)
+- **Anthropic** (Claude)
+- **Ollama** (run AI locally)
+- **Custom APIs**
 
-### Required Packages
-Place these files from the Hailo Developer Portal in your add-on's `hailo_packages/` directory:
+### 💡 **Real Examples of What Users Ask**
 
-- **HEF Models**: `*.hef` files (Hailo Executable Format)
-- **Runtime**: `hailort_*_arm64.deb` (system package)
-- **Python SDK**: `hailort-*-cp*-linux_aarch64.whl`
-- **Platform**: `hailo_platform-*-cp*-linux_aarch64.whl`
+> *"Turn on the porch light when someone approaches the front door"*
+> 
+> **AI Response**: "I found your front door motion sensor and porch light. Here's an automation that triggers the light when motion is detected between sunset and sunrise."
 
-### Example Structure
-```
-addons/my-detector/hailo_packages/
-├── yolov8s.hef
-├── yolov8m.hef
-├── hailort_4.23.0_arm64.deb
-├── hailort-4.23.0-cp310-cp310-linux_aarch64.whl
-└── hailo_platform-4.23.0-cp310-cp310-linux_aarch64.whl
-```
+> *"Make my house energy efficient when we're sleeping"*
+> 
+> **AI Response**: "I found 12 controllable devices. I can turn off non-essential lights, lower the thermostat by 2°F, and put media devices in standby mode from 11 PM to 6 AM."
 
-## 🏗️ Add-on Template Features
+## 🏆 Why Choose This Over Other AI Tools?
 
-The base template includes:
+| Feature | This Add-on | ChatGPT/Others |
+|---------|-------------|----------------|
+| **Knows Your Devices** | ✅ Sees all entities | ❌ Generic suggestions |
+| **Works Offline** | ✅ Hailo/Ollama options | ❌ Internet required |
+| **Home Assistant Integration** | ✅ Native | ❌ Manual copying |
+| **Real Entity Names** | ✅ Uses actual IDs | ❌ Placeholder names |
+| **Installation Testing** | ✅ Automated validation | ❌ Trial and error |
 
-### Configuration (`config.yaml`)
-- Multi-architecture support
-- Device mapping for Hailo hardware
-- Configurable options (model path, device ID, API settings)
-- Proper Home Assistant integration
+## 🛠️ For Developers
 
-### Dockerfile
-- Ubuntu 22.04 base with proper package management
-- S6-Overlay for proper process management
-- Bashio for Home Assistant integration
-- Architecture-aware Hailo package installation
+Want to customize or contribute? All the technical details are here:
 
-### Application (`src/main.py`)
-- Flask API server for inference
-- Model loading and management
-- Device detection and initialization
-- Comprehensive logging
-- Health check endpoints
+- **[Developer Documentation →](docs/addon-development-guide.md)**
+- **[Technical Implementation →](ENTITY_DISCOVERY_COMPLETE.md)**
+- **[API Documentation →](docs/HAILO_PACKAGE_SETUP.md)**
+- **[Contributing Guide →](CONTRIBUTING.md)**
 
-### API Endpoints
-- `GET /health` - System health check
-- `GET /models` - List available models
-- `POST /inference` - Run model inference
+## 📈 What's Next?
 
-## 🚀 Deployment Workflow
+This add-on is actively developed with planned features:
 
-### 1. Development
-```bash
-# Generate add-on
-./scripts/generate-addon.sh my-app
+- 🔮 **Predictive Automations** - Learn your patterns
+- 📱 **Mobile App Integration** - Voice control
+- 🏠 **Room-by-Room Setup** - Area-specific intelligence
+- 🔄 **Automation Templates** - Share community automations
 
-# Add Hailo packages
-cp /path/to/hailo/packages/* ./addons/my-app/hailo_packages/
+---
 
-# Customize application
-edit ./addons/my-app/src/main.py
-```
+**🌟 Star this repo if it helps you!** 
 
-### 2. Testing
-```bash
-# Validate configuration
-./scripts/dev-helper.sh validate ./addons/my-app
+**🐛 Found a bug?** → [Report it here](https://github.com/allanwrench28/HAILO-Terminal/issues)
 
-# Build locally
-./scripts/build-addon.sh ./addons/my-app
-
-# Test run (if Hailo device available)
-docker run --rm -it --device=/dev/hailo0 local/aarch64-addon-my_app:1.0.0
-```
-
-### 3. Home Assistant Installation
-```bash
-# Copy to Home Assistant
-cp -r ./addons/my-app /path/to/homeassistant/addons/
-
-# Install through Home Assistant UI
-# Settings → Add-ons → Add-on Store → Local Add-ons
-```
-
-## 🎯 Use Cases
-
-### Object Detection
-```python
-# Example: YOLOv8 object detection
-def run_detection(image_path, model_name):
-    model = load_hailo_model(f"{MODEL_PATH}/{model_name}.hef")
-    image = preprocess_image(image_path)
-    results = model.infer(image)
-    return postprocess_results(results)
-```
-
-### Audio Processing
-```python
-# Example: Whisper speech recognition
-def transcribe_audio(audio_path, model_name):
-    model = load_hailo_model(f"{MODEL_PATH}/{model_name}.hef")
-    audio = preprocess_audio(audio_path)
-    transcript = model.infer(audio)
-    return transcript
-```
-
-### Custom Models
-```python
-# Example: Custom trained model
-def run_custom_inference(input_data, model_name):
-    model = load_hailo_model(f"{MODEL_PATH}/{model_name}.hef")
-    preprocessed = custom_preprocess(input_data)
-    results = model.infer(preprocessed)
-    return custom_postprocess(results)
-```
-
-## 📖 Documentation
-
-- [Home Assistant Add-on Development](https://developers.home-assistant.io/docs/add-ons/)
-- [Hailo Developer Portal](https://hailo.ai/developer-zone/)
-- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
-
-## 🤝 Contributing
-
-1. Create your add-on using the template
-2. Test thoroughly on actual hardware
-3. Document your configuration and usage
-4. Share your innovations!
+**💡 Have an idea?** → [Share it here](https://github.com/allanwrench28/HAILO-Terminal/discussions)
 
 ## 📝 License
 
