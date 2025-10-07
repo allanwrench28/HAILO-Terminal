@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Hailo AI Terminal
-version: "1.0.0"
+version: "1.0.1"
 slug: hailo_ai_terminal
 description: AI-powered terminal and resource monitor for Home Assistant
 url: "https://github.com/your-repo/hailo-terminal"

@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Planned: Improved resource monitoring accuracy
 - Planned: Enhanced web interface responsiveness
 
+## [1.0.1] - 2024-10-07
+
+### Fixed
+- **Docker Build Error**: Fixed S6-Overlay installation failing with "File format not recognized" error by downloading to temporary file before extraction instead of piping directly to tar
+- Updated S6-Overlay installation pattern in both main add-on and template Dockerfiles
+- Added troubleshooting documentation for Docker build failures
+
 ## [1.0.0] - 2024-01-XX
 
 ### Added
