@@ -21,7 +21,14 @@ This add-on gives you a smart AI assistant that can see ALL your devices and hel
 
 ### Step 3: Install This Add-on
 
-**Windows Users:**
+**Easiest Method (HACS - Recommended):**
+1. Open HACS in Home Assistant
+2. Click the three dots (⋮) → Custom repositories  
+3. Paste: `https://github.com/allanwrench28/HAILO-Terminal`
+4. Category: Integration
+5. Click Add → Install
+
+**Alternative Method (Windows PowerShell):**
 1. Press `Windows + R`
 2. Type `powershell` and press Enter
 3. Copy and paste this, then press Enter:
@@ -30,18 +37,13 @@ This add-on gives you a smart AI assistant that can see ALL your devices and hel
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/allanwrench28/HAILO-Terminal/main/install_clean.ps1" -OutFile "install_hailo.ps1"; .\install_hailo.ps1
 ```
 
-**Alternative Method (Any Platform):**
-1. Open HACS in Home Assistant
-2. Click the three dots (⋮) → Custom repositories  
-3. Paste: `https://github.com/allanwrench28/HAILO-Terminal`
-4. Category: Integration
-5. Click Add → Install
-
 ### Step 4: Configure
 1. Go to Settings → Add-ons → Hailo AI Terminal
 2. Add your Home Assistant details:
    - **URL**: Your Home Assistant address (like `http://192.168.1.100:8123`)
    - **Token**: [How to get a token →](docs/INSTALLATION.md#getting-your-token)
+
+**📦 Note about AI Packages**: If you want to use Hailo hardware, you'll need to add the Hailo packages to the add-on directory. The add-on works great with OpenAI, Anthropic, or Ollama without any additional packages! [Package setup guide →](docs/HAILO_PACKAGE_SETUP.md)
 
 ### Step 5: Start Using It!
 1. Open the add-on
