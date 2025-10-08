@@ -56,8 +56,13 @@ RUN \
 # Install S6-Overlay for proper init system
 # Download architecture-specific overlay
 RUN ARCH=$(dpkg --print-architecture) \
+    && S6_ARCH=${ARCH} \
+    && if [ "${ARCH}" = "amd64" ]; then S6_ARCH="x86_64"; fi \
+    && if [ "${ARCH}" = "arm64" ]; then S6_ARCH="aarch64"; fi \
+    && if [ "${ARCH}" = "armel" ]; then S6_ARCH="arm"; fi \
+    && if [ "${ARCH}" = "i386" ]; then S6_ARCH="i686"; fi \
     && curl -L -f -o /tmp/s6-overlay-arch.tar.xz \
-        "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${ARCH}.tar.xz" \
+        "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
     && tar -C / -Jxpf /tmp/s6-overlay-arch.tar.xz \
     && rm -f /tmp/s6-overlay-arch.tar.xz
 
