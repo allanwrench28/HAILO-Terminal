@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Docker Build Error on ARM64**: Fixed s6-overlay download failing with 404 error by adding architecture mapping (dpkg's `arm64` → s6-overlay's `aarch64`, `amd64` → `x86_64`, etc.)
+- Applied fix to main add-on, template, and documentation for consistency
+
 ### Added
 - Planned: Enhanced AI model management interface
 - Planned: Integration with Home Assistant's conversation agent
